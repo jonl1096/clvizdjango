@@ -1,0 +1,38 @@
+Output:
+- base graph: plotly html
+- density graph: plotly html
+- altas region graph: plotly html
+- csv file: csv
+- edges and nodes csv files: csv
+- graphml file: graphml
+
+
+After making changes to an app's models run:
+'python manage.py makemigrations clarityviz'
+then run:
+'python manage.py migrate'
+to apply the changes.
+
+'python manage.py shell'
+
+
+
+REORIENTATION SHIT =============================================================
+
+inImg = imgReorient(inImg, "LAI", "RSA")
+inAnnoImg = imgReorient(inAnnoImg, "RSA", "LAI")
+
+https://github.com/neurodata/ndreg/blob/master/doc/3dRegistrationAndAnalysis.ipynb
+
+
+OTHER STUFF ===================
+
+stuff I need to pass into files.html:
+-
+
+abspath:
+/root/seelviz/django/seelviz/output/Aut1367reorient_atlas/Aut1367reorient_atlas_edge_count_pointcloud.html
+
+                    <!--{% for filename in plotly_files %}-->
+                        <!--<a href="/clarityviz/plot/{{ filename.split('reorient')[0] }}-">{{ filename }}</a> <br />-->
+                    <!--{%- endfor %}-->

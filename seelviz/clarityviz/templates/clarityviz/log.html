@@ -1,0 +1,42 @@
+{% extends "clarityviz/header.html" %}
+
+    {% block content %}
+
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
+                <h1 class="section-heading">Log</h1>
+                <hr>
+
+                {% if all_computes %}
+                    {% for compute in all_computes %}
+                    <li><a href="{% url 'clarityviz:output' compute.pk %}">{{ compute.token }} (Orientation: {{ compute.orientation }}) (Num Points: {{ compute.num_points }})</a> </li>
+                    {% endfor %}
+                {% else %}
+                    <p>No analyses Done.</p>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <!--<body>-->
+        <!--<section class="bg-graph" id="about">-->
+            <!--<div class="container">-->
+                <!--<div class="row">-->
+                    <!--<div class="col-lg-8 col-lg-offset-2 text-center">-->
+                        <!--<h2 class="section-heading">Log</h2>-->
+
+                        <!--{% if all_computes %}-->
+                            <!--{% for compute in all_computes %}-->
+                            <!--<li><a href="{% url 'clarityviz:output' compute.pk %}">{{ compute.token }} (Num Points: {{ compute.num_points }})</a> </li>-->
+                            <!--{% endfor %}-->
+                        <!--{% else %}-->
+
+                        <!--{% endif %}-->
+
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</section>-->
+    <!--</body>-->
+    {% endblock %}
