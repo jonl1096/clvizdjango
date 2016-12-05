@@ -4,6 +4,7 @@
     <list default="true" id="6587f152-9cec-41bf-9bf6-715cbca16826" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/seelviz/clarityviz/static/clarityviz/vendor/bootstrap/css/bootstrap.css" afterPath="$PROJECT_DIR$/seelviz/clarityviz/static/clarityviz/vendor/bootstrap/css/bootstrap.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/seelviz/clarityviz/templates/clarityviz/log.html" afterPath="$PROJECT_DIR$/seelviz/clarityviz/templates/clarityviz/log.html" />
     </list>
     <ignored path="clvizdjango.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -43,21 +44,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="log.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="log.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/seelviz/clarityviz/templates/clarityviz/log.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="90">
-              <caret line="8" column="46" selection-start-line="8" selection-start-column="46" selection-end-line="8" selection-end-column="46" />
+              <caret line="8" column="61" selection-start-line="8" selection-start-column="61" selection-end-line="8" selection-end-column="61" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="bootstrap.css" pinned="false" current-in-tab="true">
+      <file leaf-file-name="bootstrap.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/seelviz/clarityviz/static/clarityviz/vendor/bootstrap/css/bootstrap.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="2363" column="27" selection-start-line="2363" selection-start-column="27" selection-end-line="2363" selection-end-column="27" />
+            <state relative-caret-position="1950">
+              <caret line="2446" column="45" selection-start-line="2446" selection-start-column="45" selection-end-line="2446" selection-end-column="45" />
               <folding />
             </state>
           </provider>
@@ -94,9 +95,9 @@
         <option value="$PROJECT_DIR$/seelviz/clarityviz/templates/clarityviz/header.html" />
         <option value="$PROJECT_DIR$/seelviz/teampage/templates/teampage/index.html" />
         <option value="$PROJECT_DIR$/seelviz/clarityviz/views.py" />
-        <option value="$PROJECT_DIR$/seelviz/clarityviz/templates/clarityviz/log.html" />
         <option value="$PROJECT_DIR$/seelviz/clarityviz/static/clarityviz/css/creative.css" />
         <option value="$PROJECT_DIR$/seelviz/clarityviz/static/clarityviz/vendor/bootstrap/css/bootstrap.css" />
+        <option value="$PROJECT_DIR$/seelviz/clarityviz/templates/clarityviz/log.html" />
       </list>
     </option>
   </component>
@@ -491,18 +492,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/seelviz/clarityviz/templates/clarityviz/log.html">
+    <entry file="file://$PROJECT_DIR$/seelviz/clarityviz/static/clarityviz/vendor/bootstrap/css/bootstrap.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="8" column="46" selection-start-line="8" selection-start-column="46" selection-end-line="8" selection-end-column="46" />
+        <state relative-caret-position="1950">
+          <caret line="2446" column="45" selection-start-line="2446" selection-start-column="45" selection-end-line="2446" selection-end-column="45" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/seelviz/clarityviz/static/clarityviz/vendor/bootstrap/css/bootstrap.css">
+    <entry file="file://$PROJECT_DIR$/seelviz/clarityviz/templates/clarityviz/log.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="2363" column="27" selection-start-line="2363" selection-start-column="27" selection-end-line="2363" selection-end-column="27" />
+        <state relative-caret-position="90">
+          <caret line="8" column="61" selection-start-line="8" selection-start-column="61" selection-end-line="8" selection-end-column="61" />
           <folding />
         </state>
       </provider>
