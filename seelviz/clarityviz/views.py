@@ -140,6 +140,7 @@ def test_function():
 #     token = request.POST['token']
 def token_compute(token, orientation, num_points=10000):
     print('INSIDE TOKEN_COMPUTE')
+    print('num_points: %d' % int(num_points))
     ogToken = token
     new_compute = None
 
@@ -160,7 +161,7 @@ def token_compute(token, orientation, num_points=10000):
 
     if token != 'Aut1367reorient_atlas':
         ip_start = time.time()
-        token = image_parse(token, ori1, num_points)
+        token = image_parse(token, ori1, int(num_points))
         ip_run_time = time.time() - ip_start
         print('image_parse total time = %f' % ip_run_time)
 
