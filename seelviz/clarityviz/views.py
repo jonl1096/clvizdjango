@@ -283,7 +283,7 @@ def plot(request, file_info):
         description = 'This graph shows a plot of the brain with each region as designated by the atlas a unique colored. Controls along the side allow for toggling the traces on/off'
         file_name = token + '_region_pointcloud.html'
 
-    path = '/root/seelviz/django/seelviz/output/Aut1367reorient_atlas/' + file_name
+    path = '/root/seelviz/django/seelviz/output/' + token +'/' + file_name
     html = """
     {% extends "clarityviz/header.html" %}
 
