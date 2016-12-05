@@ -19,8 +19,10 @@
                             {% for compute in all_computes %}
                             <tr>
                                 <td><a href="{% url 'clarityviz:output' compute.pk %}">{{ compute.token }}</a></td>
-                                <td><a href="{% url 'clarityviz:output' compute.pk %}">{{ compute.orientation }}</a></td>
-                                <td><a href="{% url 'clarityviz:output' compute.pk %}">{{ compute.num_points }}</a></td>
+                                <!--<td><a href="{% url 'clarityviz:output' compute.pk %}">{{ compute.orientation }}</a></td>-->
+                                <!--<td><a href="{% url 'clarityviz:output' compute.pk %}">{{ compute.num_points }}</a></td>-->
+                                <td>{{ compute.orientation }}</td>
+                                <td>{{ compute.num_points }}</td>
                             </tr>
                             <!--<li><a href="{% url 'clarityviz:output' compute.pk %}">{{ compute.token }} (Orientation: {{ compute.orientation }}) (Num Points: {{ compute.num_points }})</a> </li>-->
                             {% endfor %}
