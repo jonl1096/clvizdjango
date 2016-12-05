@@ -141,6 +141,7 @@ input::-moz-focus-inner {
   border: 0;
 }
 input {
+    color: black;
   line-height: normal;
 }
 input[type="checkbox"],
