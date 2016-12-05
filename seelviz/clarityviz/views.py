@@ -160,7 +160,7 @@ def token_compute(token, orientation, num_points=10000):
 
     if token != 'Aut1367reorient_atlas':
         ip_start = time.time()
-        token = image_parse(token, ori1)
+        token = image_parse(token, ori1, num_points)
         ip_run_time = time.time() - ip_start
         print('image_parse total time = %f' % ip_run_time)
 
@@ -413,7 +413,7 @@ def imgGet(inToken, ori1):
     return imgName
 
 
-def image_parse(inToken, ori1):
+def image_parse(inToken, ori1, num_points):
     start = time.time()
     # imgGet is where the token name changes to adding the 'reorient_atlas'
     imgName = imgGet(inToken,ori1)
@@ -439,7 +439,7 @@ def image_parse(inToken, ori1):
     thr = 0.9
     sam = 0.0005
     # img.calculatePoints(threshold = thr, sample = sam)
-    num_points = 10000
+    # num_points = 10000
     img.calculatePointsByNumber(num_points)
     print "calculated points"
     run_time = time.time() - start
