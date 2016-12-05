@@ -333,7 +333,7 @@ class claritybase(object):
 
         threshold = .9
         total = self._shape[0]*self._shape[1]*self._shape[2]
-        print("Coverting to points...\ntoken=%s\ntotal=%d\nmax=%f\nthreshold=%f\nnum_points=%f" \
+        print("Coverting to points...\ntoken=%s\ntotal=%d\nmax=%f\nthreshold=%f\nnum_points=%d" \
               %(self._token,total,self._max,threshold,num_points))
         print("(This will take couple minutes)")
         # threshold
