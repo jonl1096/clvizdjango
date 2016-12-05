@@ -2257,7 +2257,8 @@ pre code {
   }
 }
 table {
-  background-color: transparent;
+    color: black;
+  background-color: white;
 }
 caption {
   padding-top: 8px;
