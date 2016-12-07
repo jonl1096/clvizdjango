@@ -341,6 +341,10 @@ def output(request, token):
 
 def imgGet(inToken, ori1):
     refToken = "ara_ccf2"                         # hardcoded 'ara_ccf2' atlas until additional functionality is requested
+
+    imgName = inToken + "reorient_atlas"
+    location = "img/" + imgName + ".nii"
+
     refImg = imgDownload(refToken)                # download atlas
     refAnnoImg = imgDownload(refToken, channel="annotation")
     print "reference token/atlas obtained"
@@ -352,65 +356,65 @@ def imgGet(inToken, ori1):
 
     tupleResolution = inImg.GetSpacing();
 
-    lowerThreshold = maximum
-    upperThreshold = sitk.GetArrayFromImage(inImg).max()+1
+    # only do the downloading if it doesn't exist
+    if not os.path.isfile(location):
+        lowerThreshold = maximum
+        upperThreshold = sitk.GetArrayFromImage(inImg).max()+1
 
-    inImg = sitk.Threshold(inImg,lowerThreshold,upperThreshold,lowerThreshold) - lowerThreshold
-    print "applied filtering"
-    rawImg = sitk.GetArrayFromImage(inImg)
-    xdimensions = len(rawImg[:,0,0])
-    ydimensions = len(rawImg[0,:,0])
-    zdimensions = len(rawImg[0,0,:])
-    xyz = []
-    for i in range(40000):
-        value = 0
-        while(value == 0):
-            xval = random.sample(xrange(0,xdimensions), 1)[0]
-            yval = random.sample(xrange(0,ydimensions), 1)[0]
-            zval = random.sample(xrange(0,zdimensions), 1)[0]
-            value = rawImg[xval,yval,zval]
-            if [xval, yval, zval] not in xyz and value > 300:
-                xyz.append([xval, yval, zval])
-            else:
-                value = 0
-    print('inToken asdfasdf:')
-    print(inToken)
-    rImg = claritybase(inToken + 'raw', None)
-    rImg.savePoints(None,xyz)
-    rImg.generate_plotly_html()
-    print "random sample of points above 250"
-    spacingImg = inImg.GetSpacing()
-    spacing = tuple(i * 50 for i in spacingImg)
-    inImg.SetSpacing(spacingImg)
-    inImg_download = inImg    # Aut1367 set to default spacing
-    inImg = imgResample(inImg, spacing=refImg.GetSpacing())
-    print "resampled img"
-    Img_reorient = imgReorient(inImg, ori1, "RSA")    # reoriented Aut1367
-    # Img_reorient = imgReorient(inImg, "LPS", "RSA")    # reoriented Aut1367
-    refImg_ds = imgResample(refImg, spacing=spacing)    # atlas with downsampled spacing 10x
-    inImg_ds = imgResample(Img_reorient, spacing=spacing)    # Aut1367 with downsampled spacing 10x
-    print "reoriented image"
-    affine = imgAffineComposite(inImg_ds, refImg_ds, iterations=100, useMI=True, verbose=True)
-    inImg_affine = imgApplyAffine(Img_reorient, affine, size=refImg.GetSize())
-    print "affine"
-    inImg_ds = imgResample(inImg_affine, spacing=spacing)
-    (field, invField) = imgMetamorphosisComposite(inImg_ds, refImg_ds, alphaList=[0.05, 0.02, 0.01], useMI=True, iterations=100, verbose=True)
-    inImg_lddmm = imgApplyField(inImg_affine, field, size=refImg.GetSize())
-    print "downsampled image"
-    invAffine = affineInverse(affine)
-    invAffineField = affineToField(invAffine, refImg.GetSize(), refImg.GetSpacing())
-    invField = fieldApplyField(invAffineField, invField)
-    inAnnoImg = imgApplyField(refAnnoImg, invField,useNearest=True, size=Img_reorient.GetSize())
+        inImg = sitk.Threshold(inImg,lowerThreshold,upperThreshold,lowerThreshold) - lowerThreshold
+        print "applied filtering"
+        rawImg = sitk.GetArrayFromImage(inImg)
+        xdimensions = len(rawImg[:,0,0])
+        ydimensions = len(rawImg[0,:,0])
+        zdimensions = len(rawImg[0,0,:])
+        xyz = []
+        for i in range(40000):
+            value = 0
+            while(value == 0):
+                xval = random.sample(xrange(0,xdimensions), 1)[0]
+                yval = random.sample(xrange(0,ydimensions), 1)[0]
+                zval = random.sample(xrange(0,zdimensions), 1)[0]
+                value = rawImg[xval,yval,zval]
+                if [xval, yval, zval] not in xyz and value > 300:
+                    xyz.append([xval, yval, zval])
+                else:
+                    value = 0
+        print('inToken asdfasdf:')
+        print(inToken)
+        rImg = claritybase(inToken + 'raw', None)
+        rImg.savePoints(None,xyz)
+        rImg.generate_plotly_html()
+        print "random sample of points above 250"
+        spacingImg = inImg.GetSpacing()
+        spacing = tuple(i * 50 for i in spacingImg)
+        inImg.SetSpacing(spacingImg)
+        inImg_download = inImg    # Aut1367 set to default spacing
+        inImg = imgResample(inImg, spacing=refImg.GetSpacing())
+        print "resampled img"
+        Img_reorient = imgReorient(inImg, ori1, "RSA")    # reoriented Aut1367
+        # Img_reorient = imgReorient(inImg, "LPS", "RSA")    # reoriented Aut1367
+        refImg_ds = imgResample(refImg, spacing=spacing)    # atlas with downsampled spacing 10x
+        inImg_ds = imgResample(Img_reorient, spacing=spacing)    # Aut1367 with downsampled spacing 10x
+        print "reoriented image"
+        affine = imgAffineComposite(inImg_ds, refImg_ds, iterations=100, useMI=True, verbose=True)
+        inImg_affine = imgApplyAffine(Img_reorient, affine, size=refImg.GetSize())
+        print "affine"
+        inImg_ds = imgResample(inImg_affine, spacing=spacing)
+        (field, invField) = imgMetamorphosisComposite(inImg_ds, refImg_ds, alphaList=[0.05, 0.02, 0.01], useMI=True, iterations=100, verbose=True)
+        inImg_lddmm = imgApplyField(inImg_affine, field, size=refImg.GetSize())
+        print "downsampled image"
+        invAffine = affineInverse(affine)
+        invAffineField = affineToField(invAffine, refImg.GetSize(), refImg.GetSpacing())
+        invField = fieldApplyField(invAffineField, invField)
+        inAnnoImg = imgApplyField(refAnnoImg, invField,useNearest=True, size=Img_reorient.GetSize())
 
-    inAnnoImg = imgReorient(inAnnoImg, "RSA", ori1)
-    # inAnnoImg = imgReorient(inAnnoImg, "RSA", "LPS")
-    inAnnoImg = imgResample(inAnnoImg, spacing=inImg_download.GetSpacing(), size=inImg_download.GetSize(), useNearest=True)
-    print "inverse affine"
-    imgName = inToken + "reorient_atlas"
-    location = "img/" + imgName + ".nii"
-    imgWrite(inAnnoImg, str(location))
-    # ndImg = sitk.GetArrayFromImage(inAnnoImg)
-    # sitk.WriteImage(inAnnoImg, location)
+        inAnnoImg = imgReorient(inAnnoImg, "RSA", ori1)
+        # inAnnoImg = imgReorient(inAnnoImg, "RSA", "LPS")
+        inAnnoImg = imgResample(inAnnoImg, spacing=inImg_download.GetSpacing(), size=inImg_download.GetSize(), useNearest=True)
+        print "inverse affine"
+        imgWrite(inAnnoImg, str(location))
+        # ndImg = sitk.GetArrayFromImage(inAnnoImg)
+        # sitk.WriteImage(inAnnoImg, location)
     print "generated output"
     print imgName
     return imgName, tupleResolution

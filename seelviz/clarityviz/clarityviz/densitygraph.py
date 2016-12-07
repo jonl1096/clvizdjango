@@ -253,9 +253,9 @@ class densitygraph(object):
 
 
         # node style
-        node_trace = Scatter3d(x=Xlist * xResolution,
-                               y=Ylist * yResolution,
-                               z=Zlist * zResolution,
+        node_trace = Scatter3d(x=[x * xResolution for x in Xlist],
+                               y=[x * yResolution for x in Ylist],
+                               z=[x * zResolution for x in Zlist],
                                mode='markers',
                                # name='regions',
                                marker=Marker(symbol='dot',

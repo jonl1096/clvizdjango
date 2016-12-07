@@ -133,9 +133,10 @@ class atlasregiongraph(object):
             final = temp.replace("]", "")
 
             trace_scatter = Scatter3d(
-                x=trace[:, 0] * xResolution,
-                y=trace[:, 1] * yResolution,
-                z=trace[:, 2] * zResolution,
+                x=[x * xResolution for x in trace[:, 0]],
+                y=[x * yResolution for x in trace[:, 1]],
+                z=[x * zResolution for x in trace[:, 2]],
+
                 mode='markers',
                 name=ccf[final],
                 marker=dict(
