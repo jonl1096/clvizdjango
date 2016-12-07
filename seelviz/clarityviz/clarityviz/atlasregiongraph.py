@@ -93,7 +93,7 @@ class atlasregiongraph(object):
 
         for i in range(numRegionsA):
             counter = 0;
-            for l thedata
+            for l in thedata:
                 if l[3] == allUnique[i]:
                     counter = counter + 1;
                     dictNumElementsRegion[ccf[str(l[3])]] = counter;
