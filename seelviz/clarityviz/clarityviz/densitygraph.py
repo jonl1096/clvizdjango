@@ -203,7 +203,7 @@ class densitygraph(object):
         #plotly.offline.plot(figure, filename = self._token + '/' + self._token + '_density.html')
 
 
-    def get_brain_figure(self, g, plot_title='', resolution):
+    def get_brain_figure(self, g, resolution, plot_title='') :
         """
         Returns the plotly figure object for vizualizing a 3d brain network.
         g: networkX object of brain

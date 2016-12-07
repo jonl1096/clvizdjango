@@ -23,8 +23,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/clarityviz/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="528" column="82" lean-forward="false" selection-start-line="528" selection-start-column="82" selection-end-line="528" selection-end-column="82" />
+            <state relative-caret-position="132">
+              <caret line="491" column="69" lean-forward="false" selection-start-line="491" selection-start-column="69" selection-end-line="491" selection-end-column="69" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -42,11 +42,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="atlasregiongraph.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="atlasregiongraph.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/clarityviz/clarityviz/atlasregiongraph.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="250">
-              <caret line="149" column="12" lean-forward="true" selection-start-line="149" selection-start-column="12" selection-end-line="149" selection-end-column="12" />
+            <state relative-caret-position="292">
+              <caret line="45" column="80" lean-forward="false" selection-start-line="45" selection-start-column="80" selection-end-line="45" selection-end-column="80" />
               <folding />
             </state>
           </provider>
@@ -82,11 +82,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="densitygraph.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="densitygraph.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/clarityviz/clarityviz/densitygraph.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="198" column="8" lean-forward="false" selection-start-line="198" selection-start-column="8" selection-end-line="198" selection-end-column="8" />
+            <state relative-caret-position="333">
+              <caret line="205" column="19" lean-forward="false" selection-start-line="205" selection-start-column="19" selection-end-line="205" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -150,8 +150,8 @@
         <option value="$PROJECT_DIR$/clarityviz/templates/clarityviz/compute_form.html" />
         <option value="$PROJECT_DIR$/clarityviz/clarityviz/claritybase.py" />
         <option value="$PROJECT_DIR$/clarityviz/views.py" />
-        <option value="$PROJECT_DIR$/clarityviz/clarityviz/atlasregiongraph.py" />
         <option value="$PROJECT_DIR$/clarityviz/clarityviz/densitygraph.py" />
+        <option value="$PROJECT_DIR$/clarityviz/clarityviz/atlasregiongraph.py" />
       </list>
     </option>
   </component>
@@ -800,26 +800,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/clarityviz/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="528" column="82" lean-forward="false" selection-start-line="528" selection-start-column="82" selection-end-line="528" selection-end-column="82" />
+        <state relative-caret-position="132">
+          <caret line="491" column="69" lean-forward="false" selection-start-line="491" selection-start-column="69" selection-end-line="491" selection-end-column="69" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/clarityviz/clarityviz/atlasregiongraph.py">
+    <entry file="file://$PROJECT_DIR$/clarityviz/clarityviz/densitygraph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="149" column="12" lean-forward="true" selection-start-line="149" selection-start-column="12" selection-end-line="149" selection-end-column="12" />
+        <state relative-caret-position="333">
+          <caret line="205" column="19" lean-forward="false" selection-start-line="205" selection-start-column="19" selection-end-line="205" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/clarityviz/clarityviz/densitygraph.py">
+    <entry file="file://$PROJECT_DIR$/clarityviz/clarityviz/atlasregiongraph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="198" column="8" lean-forward="false" selection-start-line="198" selection-start-column="8" selection-end-line="198" selection-end-column="8" />
+        <state relative-caret-position="292">
+          <caret line="45" column="80" lean-forward="false" selection-start-line="45" selection-start-column="80" selection-end-line="45" selection-end-column="80" />
           <folding />
         </state>
       </provider>

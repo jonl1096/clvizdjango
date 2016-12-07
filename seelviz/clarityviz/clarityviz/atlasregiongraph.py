@@ -43,7 +43,7 @@ class atlasregiongraph(object):
             data_txt = path + '/' + token + '.region.csv'
         self._data = np.genfromtxt(data_txt, delimiter=',', dtype='int', usecols = (0,1,2,4), names=['x','y','z','region'])
 
-    def generate_atlas_region_graph(self, path=None, numRegions = 10, resolution):
+    def generate_atlas_region_graph(self, resolution, path=None, numRegions = 10):
         font = {'weight' : 'bold',
             'size'   : 18}
 
