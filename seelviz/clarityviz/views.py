@@ -175,9 +175,6 @@ def token_compute(token, orientation, num_points=10000):
         run_time = time.time() - start
         print('density_graph total time = %f' % run_time)
 
-    if token == 'Aut1367_testing':
-
-    
     fzip = shutil.make_archive('output/' + token + '/' + token, 'zip', root_dir='output/'+token)
     # fzip = shutil.make_archive('output/' + token + '/' + token, 'zip', 'output/' + token)
     fzip_abs = os.path.abspath(fzip)
