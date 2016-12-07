@@ -161,12 +161,12 @@ def token_compute(token, orientation, num_points=10000):
 
     if token != 'Aut1367reorient_atlas':
         ip_start = time.time()
-        token = image_parse(token, ori1, int(num_points))
+        token, tupleResolution = image_parse(token, ori1, int(num_points))
         ip_run_time = time.time() - ip_start
         print('image_parse total time = %f' % ip_run_time)
 
         start = time.time()
-        density_graph(token)
+        density_graph(token, tupleResolution=tupleResolution)
         run_time = time.time() - start
         print('density_graph total time = %f' % run_time)
         
@@ -174,6 +174,9 @@ def token_compute(token, orientation, num_points=10000):
         atlas_region(token)
         run_time = time.time() - start
         print('density_graph total time = %f' % run_time)
+
+    if token == 'Aut1367_testing':
+
     
     fzip = shutil.make_archive('output/' + token + '/' + token, 'zip', root_dir='output/'+token)
     # fzip = shutil.make_archive('output/' + token + '/' + token, 'zip', 'output/' + token)
@@ -413,13 +416,13 @@ def imgGet(inToken, ori1):
     # sitk.WriteImage(inAnnoImg, location)
     print "generated output"
     print imgName
-    return imgName
+    return imgName, tupleResolution
 
 
 def image_parse(inToken, ori1, num_points):
     start = time.time()
     # imgGet is where the token name changes to adding the 'reorient_atlas'
-    imgName = imgGet(inToken,ori1)
+    imgName, tupleResolution = imgGet(inToken,ori1)
     # imgName = imgGet(inToken)
     run_time = time.time() - start
     print('imgGet time = %f' % run_time)
@@ -481,7 +484,7 @@ def image_parse(inToken, ori1, num_points):
     print "generating density graph"
     img.get_brain_figure(None, imgName + ' edgecount')
     
-    return imgName
+    return imgName, tupleResolution
 
 def density_graph(Token, tupleResolution):
     densg = densitygraph(Token)

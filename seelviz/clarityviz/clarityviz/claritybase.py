@@ -585,7 +585,7 @@ class claritybase(object):
             edge_z += [source_pos['z'], target_pos['z'], None]
 
         # node style
-        node_trace = Scatter3d(x=node_positions_3d['x'],
+        node_trace `= Scatter3d(x=node_positions_3d['x'],
                                y=node_positions_3d['y'],
                                z=node_positions_3d['z'],
                                mode='markers',
