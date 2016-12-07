@@ -171,7 +171,7 @@ def token_compute(token, orientation, num_points=10000):
         print('density_graph total time = %f' % run_time)
         
         start = time.time()
-        atlas_region(token)
+        atlas_region(token, tupleResolution=tupleResolution)
         run_time = time.time() - start
         print('density_graph total time = %f' % run_time)
 
