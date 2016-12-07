@@ -104,80 +104,106 @@ class densitygraph(object):
 
         ##Tweak this to change the heat map scaling for the points.  Remove outliers.
 
+        ##Tweak this to change the heat map scaling for the points.  Remove outliers.
+        ##False coloration heatmap below.  I've commented it out in this version b/c the rainbows
+        ##are difficult to interpret.  I've included a newer red version.
+        '''
         self._heatMapBrain = [
                 # Let null values (0.0) have color rgb(0, 0, 0)
                 [0, 'rgb(0, 0, 0)'],  #black
-            
+
                 # Let first 5-10% (0.05) of the values have color rgb(204, 0, 204)
                 [0.05, 'rgb(153, 0, 153)'],  #purple
                 [0.1, 'rgb(153, 0, 153)'],  #purple
-
                 # Let next 10-15% (0.05) of the values have color rgb(204, 0, 204)
                 [0.1, 'rgb(204, 0, 204)'],  #purple
                 [0.15, 'rgb(204, 0, 204)'],  #purple
-
-                # Let values between 20-25% have color rgb(0, 0, 153)
+                # Let values between 20-25 have color rgb(0, 0, 153)
                 [0.15, 'rgb(0, 0, 153)'],    #blue
                 [0.2, 'rgb(0, 0, 153)'],    #blue
-            
-                # Let values between 25-30% have color rgb(0, 0, 204)
+
+                # Let values between 25-30 have color rgb(0, 0, 204)
                 [0.2, 'rgb(0, 0, 204)'],    #blue
                 [0.25, 'rgb(0, 0, 204)'],    #blue
-            
+
                 [0.25, 'rgb(0, 76, 153)'],    #blue
                 [0.3, 'rgb(0, 76, 153)'],    #blue
-
                 [0.3, 'rgb(0, 102, 204)'],  #light blue
                 [0.35, 'rgb(0, 102, 204)'],  #light blue
-            
+
                 [0.35, 'rgb(0, 153, 153)'],  #light blue
                 [0.4, 'rgb(0, 153, 153)'],  #light blue
-            
+
                 [0.4, 'rgb(0, 204, 204)'],  #light blue
                 [0.45, 'rgb(0, 204, 204)'],  #light blue
-
                 [0.45, 'rgb(0, 153, 76)'],
                 [0.5, 'rgb(0, 153, 76)'],
-            
+
                 [0.5, 'rgb(0, 204, 102)'],
                 [0.55, 'rgb(0, 204, 102)'],
-
                 [0.55, 'rgb(0, 255, 0)'],
                 [0.6, 'rgb(0, 255, 0)'],
-            
+
                 [0.6, 'rgb(128, 255, 0)'],
                 [0.65, 'rgb(128, 255, 0)'],
-
                 [0.65, 'rgb(255, 255, 0)'],
                 [0.7, 'rgb(255, 255, 0)'],
-
                 [0.7, 'rgb(255, 255, 102)'], #
                 [0.75, 'rgb(255, 255, 102)'], #
-            
+
                 [0.75, 'rgb(255, 128, 0)'],
                 [0.8, 'rgb(255, 128, 0)'],
-
                 [0.8, 'rgb(204, 0, 0)'], #
                 [0.85, 'rgb(204, 0, 0)'], #
-
                 [0.85, 'rgb(255, 0, 0)'],
                 [0.9, 'rgb(255, 0, 0)'],
-
                 [0.9, 'rgb(255, 51, 51)'], #
                 [0.95, 'rgb(255, 51, 51)'], #
-
                 [0.95, 'rgb(255, 255, 255)'],
                 [1.0, 'rgb(255, 255, 255)']
-            ]        
-        
-        self._sortedList = sortedList
+            ]
+        '''
+
+        self._heatMapBrain = [
+            # Let null values (0.0) have color rgb(0, 0, 0)
+            [0, 'rgb(0, 0, 0)'],  # black
+
+            [0.1, '#7f0000'],
+            [0.2, '#7f0000'],
+
+            [0.2, '#b30000'],
+            [0.3, '#b30000'],
+
+            [0.3, '#d7301f'],
+            [0.4, '#d7301f'],
+
+            [0.4, '#ef6548'],
+            [0.5, '#ef6548'],
+
+            [0.5, '#fc8d59'],
+            [0.6, '#fc8d59'],
+
+            [0.6, '#fdbb84'],
+            [0.7, '#fdbb84'],
+
+            [0.7, '#fdd49e'],
+            [0.8, '#fdd49e'],
+
+            [0.8, '#fee8c8'],
+            [0.9, '#fee8c8'],
+
+            [0.9, '#fff7ec'],
+            [1.0, '#fff7ec']
+        ]
+
+    self._sortedList = sortedList
         self._maxEdges = maxEdges
 
         #figure = self.get_brain_figure(G, '')
         #plotly.offline.plot(figure, filename = self._token + '/' + self._token + '_density.html')
 
 
-    def get_brain_figure(self, g, plot_title=''):
+    def get_brain_figure(self, g, plot_title='', resolution):
         """
         Returns the plotly figure object for vizualizing a 3d brain network.
         g: networkX object of brain
@@ -214,11 +240,22 @@ class densitygraph(object):
         Zlist = []
         for i in range(1, len(g.nodes()) + 1):
             Zlist.append(int((re.findall('\d+', str(attributes['s' + str(i)])))[2]))
-        
+
+        # Set tupleResolution to resolution input parameter
+        tupleResolution = resolution;
+
+        # EG: for Aut1367, the spacing is (0.01872, 0.01872, 0.005).
+        xResolution = tupleResolution[0]
+        yResolution = tupleResolution[1]
+        zResolution = tupleResolution[2]
+        # Now, to get the mm image size, we can multiply all x, y, z
+        # to get the proper mm size when plotting.
+
+
         # node style
-        node_trace = Scatter3d(x=Xlist,
-                               y=Ylist,
-                               z=Zlist,
+        node_trace = Scatter3d(x=Xlist * xResolution,
+                               y=Ylist * yResolution,
+                               z=Zlist * zResolution,
                                mode='markers',
                                # name='regions',
                                marker=Marker(symbol='dot',

@@ -350,6 +350,8 @@ def imgGet(inToken, ori1):
     counts = np.bincount(values)
     maximum = np.argmax(counts)
 
+    tupleResolution = inImg.GetSpacing();
+
     lowerThreshold = maximum
     upperThreshold = sitk.GetArrayFromImage(inImg).max()+1
 
@@ -481,18 +483,19 @@ def image_parse(inToken, ori1, num_points):
     
     return imgName
 
-def density_graph(Token):
+def density_graph(Token, tupleResolution):
     densg = densitygraph(Token)
     print 'densitygraph module'
     densg.generate_density_graph()
     print 'generated density graph'
     g = nx.read_graphml('output/' + Token + '/' + Token + '.graphml')
-    ggraph = densg.get_brain_figure(g = g, plot_title=Token)
+    ggraph = densg.get_brain_figure(g=g, plot_title=Token, resolution=tupleResolution)
+    # ggraph = densg.get_brain_figure(g = g, plot_title=Token)
     plotly.offline.plot(ggraph, filename = 'output/' + Token + '/' + Token + '_density_pointcloud.html')
     hm = densg.generate_heat_map()
     plotly.offline.plot(hm, filename = 'output/' + Token + '/' + Token + '_density_pointcloud_heatmap.html')
 
-def atlas_region(Token):
+def atlas_region(Token, tupleResolution):
     atlas_img = 'output/' + Token + '/' + Token + 'localeq' + '.nii'
     atlas = nb.load(atlas_img)  # <- atlas .nii image
     atlas_data = atlas.get_data()
@@ -523,4 +526,4 @@ def atlas_region(Token):
     # newToken = Token + '.region'
     atlas = atlasregiongraph(Token)
     
-    atlas.generate_atlas_region_graph(None, numRegions)
+    atlas.generate_atlas_region_graph(None, numRegions, resolution=tupleResolution)
