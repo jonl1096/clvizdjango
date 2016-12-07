@@ -196,7 +196,7 @@ class densitygraph(object):
             [1.0, '#fff7ec']
         ]
 
-    self._sortedList = sortedList
+        self._sortedList = sortedList
         self._maxEdges = maxEdges
 
         #figure = self.get_brain_figure(G, '')
