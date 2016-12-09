@@ -98,8 +98,7 @@ import plotly
 
 from ndreg import *
 import ndio.remote.neurodata as neurodata
-import nibabel as nb
-from numpy import genfromtxt
+
 
 import time
 
@@ -236,7 +235,8 @@ def token_compute(token, orientation, num_points=10000):
 
 def download(request, file_name):
     # file_path = '/root/seelviz/django/seelviz/output/Aut1367reorient_atlas/' + file_name
-    file_path = 'output/Aut1367reorient_atlas/' + file_name
+    token = file_name.split('_')[0]
+    file_path = 'output/' + token + '/' + file_name
     print('file_path: %s' % file_path)
     with open(file_path, 'rb') as fh:
         response = HttpResponse(fh.read(), content_type="application/x-download")
@@ -338,16 +338,7 @@ def output(request, token):
     return render(request, 'clarityviz/output.html')
 
 
-def imgGet(inToken, ori1):
-    refToken = "ara_ccf2"                         # hardcoded 'ara_ccf2' atlas until additional functionality is requested
-
-    # imgName = inToken + "reorient_atlas"
-    imgName = inToken
-    location = "img/" + imgName + ".nii"
-
-    refImg = imgDownload(refToken)                # download atlas
-    refAnnoImg = imgDownload(refToken, channel="annotation")
-    print "reference token/atlas obtained"
+def imgGet(inToken, ori1): refToken = "ara_ccf2"                         # hardcoded 'ara_ccf2' atlas until additional functionality is requested # imgName = inToken + "reorient_atlas" imgName = inToken location = "img/" + imgName + ".nii" refImg = imgDownload(refToken)                # download atlas refAnnoImg = imgDownload(refToken, channel="annotation") print "reference token/atlas obtained"
     inImg = imgDownload(inToken, resolution=5)    # store downsampled level 5 brain to memory
     (values, bins) = np.histogram(sitk.GetArrayFromImage(inImg), bins=100, range=(0,500))
     print "level 5 brain obtained"
