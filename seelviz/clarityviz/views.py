@@ -24,10 +24,11 @@ class OutputView(generic.DetailView):
 
         print(new_compute.token)
         token = ''
-        if not new_compute.token.endswith('reorient_atlas'):
-            token = new_compute.token + 'reorient_atlas'
-        else:
-            token = new_compute.token
+        # if not new_compute.token.endswith('reorient_atlas'):
+        #     token = new_compute.token + 'reorient_atlas'
+        # else:
+        #     token = new_compute.token
+        token = new_compute.token
 
         plotly_files = []
         all_files = []
