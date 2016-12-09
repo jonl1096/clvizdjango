@@ -213,7 +213,7 @@ class atlasregiongraph(object):
                     size=1.2,
                     color=tmp_col_lit,  # 'purple',                # set color to an array/list of desired values
                     colorscale='Viridis',  # choose a colorscale
-                    opacity=0.15
+                    opacity=0.2
                 )
             )
 
