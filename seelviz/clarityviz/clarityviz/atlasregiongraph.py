@@ -29,6 +29,10 @@ import seaborn as sns
 
 from collections import OrderedDict
 
+import requests
+import json
+import ndio.remote.neurodata as neurodata
+
 class atlasregiongraph(object):
     """Class for generating the color coded atlas region graphs"""
 
@@ -88,29 +92,95 @@ class atlasregiongraph(object):
         allUnique = np.unique(uniqueNP)
         numRegionsA = len(allUnique)
 
-        # Store and count the number of regions in each unique region
-        dictNumElementsRegion = {}
+        """
+               First we download annotation ontology from Allen Brain Atlas API.
+               It returns a JSON tree in which larger parent structures are divided into smaller children regions.
+               For example the "corpus callosum" parent is has children "corpus callosum, anterior forceps", "genu of corpus callosum", "corpus callosum, body", etc
+               """
 
-        for i in range(numRegionsA):
+        url = "http://api.brain-map.org/api/v2/structure_graph_download/1.json"
+        jsonRaw = requests.get(url).content
+        jsonDict = json.loads(jsonRaw)
+
+        """
+        Next we collect the names and ids of all of the regions.
+        Since our json data is a tree we can walk through it in arecursive manner.
+        Thus starting from the root...
+        """
+        root = jsonDict['msg'][0]
+        """
+        ...we define a recursive function ...
+        """
+
+        leafList = []
+
+        def getChildrenNames(parent, childrenNames={}):
+            if len(parent['children']) == 0:
+                leafList.append(parent['id'])
+
+            for childIndex in range(len(parent['children'])):
+                child = parent['children'][childIndex]
+                childrenNames[child['id']] = child['name']
+
+                childrenNames = getChildrenNames(child, childrenNames)
+            return childrenNames
+
+        """
+        ... and collect all of the region names in a dictionary with the "id" field as keys.
+        """
+
+        regionDict = getChildrenNames(root)
+
+        ## Store most specific data
+        specificRegions = [];
+
+        for l in thedata:
+            if l[3] in leafList:
+                specificRegions.append(l)
+
+        # Find all unique regions of brightest points (new)
+        uniqueFromSpecific = [];
+
+        for l in specificRegions:
+            uniqueFromSpecific.append(l[3])
+
+        uniqueSpecificNP = np.asarray(uniqueFromSpecific)
+        allUniqueSpecific = np.unique(uniqueSpecificNP)
+        numRegionsASpecific = len(allUniqueSpecific)
+
+        print
+        "All unique specific region ID's:"
+        print
+        allUniqueSpecific
+        print
+        "Total number of unique ID's:"
+        print
+        numRegionsASpecific  ## number of regions
+
+        # Store and count the bright regions in each unique region (new)
+        dictNumElementsRegionSpecific = {}
+
+        for i in range(numRegionsASpecific):
             counter = 0;
-            for l in thedata:
-                if l[3] == allUnique[i]:
+            for l in specificRegions:
+                if l[3] == allUniqueSpecific[i]:
                     counter = counter + 1;
-                    dictNumElementsRegion[ccf[str(l[3])]] = counter;
+                    dictNumElementsRegionSpecific[ccf[str(l[3])]] = counter;
 
-        region_names = dictNumElementsRegion.keys()
-        number_repetitions = dictNumElementsRegion.values()
+        region_names = dictNumElementsRegionSpecific.keys()
+        number_repetitions = dictNumElementsRegionSpecific.values()
 
         from itertools import izip
 
-        with open('ARA_CCF2_ds_10XCounts.csv', 'wb') as write:
+        with open(self._token + 'specific_counts.csv', 'wb') as write:
             writer = csv.writer(write)
             writer.writerows(izip(region_names, number_repetitions))
 
-
+        specificRegionsNP = np.asarray(specificRegions)
 
         region_dict = OrderedDict()
-        for l in thedata:
+
+        for l in specificRegionsNP:
             trace = ccf[str(l[3])]
             # trace = 'trace' + str(l[3])
             if trace not in region_dict:
