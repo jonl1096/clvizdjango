@@ -54,10 +54,21 @@ class ComputeCreate(CreateView):
     fields = ['token', 'orientation', 'num_points']
 
     def form_valid(self, form):
-        self.object = form.save()
+
         token = form.cleaned_data['token']
         orientation = form.cleaned_data['orientation']
         num_points = form.cleaned_data['num_points']
+
+        num_results = Compute.objects.filter(token=token).count()
+
+        if num_results == 0:
+            # if the token is not already in the db, just add it.
+            self.object = form.save()
+        else:
+            # if the token is already in the db, delete the old one and save the new one.
+            Compute.objects.filter(token=token).delete()
+            self.object = form.save()
+
         token_compute(token, orientation, num_points)
         print('meme token')
         print(token)
