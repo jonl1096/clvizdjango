@@ -235,7 +235,7 @@ def token_compute(token, orientation, num_points=10000):
 
 def download(request, file_name):
     # file_path = '/root/seelviz/django/seelviz/output/Aut1367reorient_atlas/' + file_name
-    file_path = '/output/Aut1367reorient_atlas/' + file_name
+    file_path = 'output/Aut1367reorient_atlas/' + file_name
     print('file_path: %s' % file_path)
     with open(file_path, 'rb') as fh:
         response = HttpResponse(fh.read(), content_type="application/x-download")
