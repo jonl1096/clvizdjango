@@ -70,7 +70,7 @@ class atlasregiongraph(object):
         # to get the proper mm size when plotting.
 
         """Load the CSV of the ARA with CCF v2 (see here for docs:)"""
-        ccf_txt = './../ccf/natureCCFOhedited.csv'
+        ccf_txt = '/ccf/natureCCFOhedited.csv'
 
         ccf = {}
         with open(ccf_txt, 'rU') as csvfile:
