@@ -173,7 +173,7 @@ def token_compute(token, orientation, num_points=10000):
         start = time.time()
         atlas_region(token, tupleResolution=tupleResolution)
         run_time = time.time() - start
-        print('density_graph total time = %f' % run_time)
+        print('atlas region total time = %f' % run_time)
 
     fzip = shutil.make_archive('output/' + token + '/' + token, 'zip', root_dir='output/'+token)
     # fzip = shutil.make_archive('output/' + token + '/' + token, 'zip', 'output/' + token)
@@ -234,7 +234,8 @@ def token_compute(token, orientation, num_points=10000):
     # return render(request, 'clarityviz/output.html', context)
 
 def download(request, file_name):
-    file_path = '/root/seelviz/django/seelviz/output/Aut1367reorient_atlas/' + file_name
+    # file_path = '/root/seelviz/django/seelviz/output/Aut1367reorient_atlas/' + file_name
+    file_path = '/output/Aut1367reorient_atlas/' + file_name
     print('file_path: %s' % file_path)
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fh:
