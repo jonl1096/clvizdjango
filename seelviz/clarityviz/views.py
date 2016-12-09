@@ -175,9 +175,9 @@ def token_compute(token, orientation, num_points=10000):
         run_time = time.time() - start
         print('atlas region total time = %f' % run_time)
 
-    fzip = shutil.make_archive('output/' + token + '/' + token, 'zip', root_dir='output/'+token)
-    # fzip = shutil.make_archive('output/' + token + '/' + token, 'zip', 'output/' + token)
-    fzip_abs = os.path.abspath(fzip)
+    # fzip = shutil.make_archive('output/' + token + '/' + token, 'zip', root_dir='output/'+token)
+    # # fzip = shutil.make_archive('output/' + token + '/' + token, 'zip', 'output/' + token)
+    # fzip_abs = os.path.abspath(fzip)
 
     print('just finished making zip')
 
