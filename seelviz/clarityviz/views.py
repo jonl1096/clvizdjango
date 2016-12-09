@@ -530,4 +530,4 @@ def atlas_region(Token, tupleResolution):
     # newToken = Token + '.region'
     atlas = atlasregiongraph(Token)
     
-    atlas.generate_atlas_region_graph(resolution=tupleResolution, None, numRegions)
+    atlas.generate_atlas_region_graph(tupleResolution, None, numRegions)
