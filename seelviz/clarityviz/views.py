@@ -340,7 +340,8 @@ def output(request, token):
 def imgGet(inToken, ori1):
     refToken = "ara_ccf2"                         # hardcoded 'ara_ccf2' atlas until additional functionality is requested
 
-    imgName = inToken + "reorient_atlas"
+    # imgName = inToken + "reorient_atlas"
+    imgName = inToken
     location = "img/" + imgName + ".nii"
 
     refImg = imgDownload(refToken)                # download atlas
