@@ -248,7 +248,14 @@ def token_compute(token, orientation, num_points=10000):
 
 def download(request, file_name):
     # file_path = '/root/seelviz/django/seelviz/output/Aut1367reorient_atlas/' + file_name
-    token = file_name.split('_')[0]
+    prev = ""
+    curr = ""
+    if not file_name.endswith('html'):
+        for i in range(0, len(file_name)):
+            if file_name[i].isdigit() and not file_name[i + 1].isdigit():
+                token = file_name[0:i + 1]
+    else:
+        token = file_name.split('_')[0]
     file_path = 'output/' + token + '/' + file_name
     # file_path = 'output/Aut1367reorient_atlas/' + file_name
     print('file_path: %s' % file_path)
