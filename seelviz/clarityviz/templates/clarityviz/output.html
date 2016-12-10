@@ -31,21 +31,19 @@
                     <h2 class="section-heading">Downloads</h2>
                     <!--<hr class="light">-->
 
-                    {% set html = "html" %}
 
-                        {% for filename in all_files %}
-                            {% if filename.endswith(html) %}
-                                <a href="/clarityviz/download/{{ filename }}">{{ filename }}</a> <br />
-                            {% endif %}
-                        {% endfor %}
+                    {% for filename in all_files %}
+                        {% if filename.endswith(html) %}
+                            <a href="/clarityviz/download/{{ filename }}">{{ filename }}</a> <br />
+                        {% endif %}
+                    {% endfor %}
 
-                        {% for filename in all_files %}
-                            {% if not filename.endswith(html) %}
-                                <a href="/clarityviz/download/{{ filename }}">{{ filename }}</a> <br />
-                            {% endif %}
-                        {% endfor %}
+                    {% for filename in all_files %}
+                        {% if not filename.endswith(html) %}
+                            <a href="/clarityviz/download/{{ filename }}">{{ filename }}</a> <br />
+                        {% endif %}
+                    {% endfor %}
 
-                    {% endset %}
 
 
 
