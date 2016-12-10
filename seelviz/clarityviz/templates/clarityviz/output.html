@@ -32,14 +32,12 @@
                     <!--<hr class="light">-->
 
 
-                    {% for filename in all_files %}
-                        {% if filename.endswith(html) %}
-                            <a href="/clarityviz/download/{{ filename }}">{{ filename }}</a> <br />
-                        {% endif %}
+                    {% for filename in plotly_files %}
+                        <a href="/clarityviz/download/{{ filename }}">{{ filename }}</a> <br />
                     {% endfor %}
 
                     {% for filename in all_files %}
-                        {% if not filename.endswith(html) %}
+                        {% if not filename in plotly_files %}
                             <a href="/clarityviz/download/{{ filename }}">{{ filename }}</a> <br />
                         {% endif %}
                     {% endfor %}
