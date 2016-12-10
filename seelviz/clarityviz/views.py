@@ -396,7 +396,7 @@ def imgGet(inToken, ori1):
         print(inToken)
         rImg = claritybase(inToken + 'raw', None)
         rImg.savePoints(None,xyz)
-        rImg.generate_plotly_html()
+        rImg.generate_plotly_html(tupleResolution)
         print "random sample of points above 250"
         spacingImg = inImg.GetSpacing()
         spacing = tuple(i * 50 for i in spacingImg)
@@ -479,7 +479,7 @@ def image_parse(inToken, ori1, num_points):
 
     print "generating plotly"
     start = time.time()
-    img.generate_plotly_html()
+    img.generate_plotly_html(tupleResolution)
     run_time = time.time() - start
     print('brightPoints time = %f' % run_time)
 
@@ -496,7 +496,7 @@ def image_parse(inToken, ori1, num_points):
     print('graphmlconvert time = %f' % run_time)
 
     print "generating density graph"
-    img.get_brain_figure(None, imgName + ' edgecount')
+    img.get_brain_figure(tupleResolution, None, imgName + ' edgecount')
     
     return imgName, tupleResolution
 

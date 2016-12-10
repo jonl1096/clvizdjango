@@ -134,17 +134,27 @@ class claritybase(object):
         outfile.close()
         self._points = savePoints
 
-    def generate_plotly_html(self):
+    def generate_plotly_html(self, resolution):
         """Generates the plotly from the csv file."""
         # Type in the path to your csv file here
         thedata = None
         thedata = np.genfromtxt('output/' + self._token + '/' + self._token + 'localeq.csv',
             delimiter=',', dtype='int', usecols = (0,1,2), names=['a','b','c'])
+
+        # Set tupleResolution to resolution input parameter
+        tupleResolution = resolution;
+
+        # EG: for Aut1367, the spacing is (0.01872, 0.01872, 0.005).
+        xResolution = tupleResolution[0]
+        yResolution = tupleResolution[1]
+        zResolution = tupleResolution[2]
+        # Now, to get the mm image size, we can multiply all x, y, z
+        # to get the proper mm size when plotting.
        
         trace1 = Scatter3d(
-            x = thedata['a'],
-            y = thedata['b'],
-            z = thedata['c'],
+            x = [x * xResolution for x in thedata['a']],
+            y = [x * yResolution for x in thedata['b']],
+            z = [x * zResolution for x in thedata['c']],
             mode='markers',
             marker=dict(
                 size=1.2,
@@ -549,13 +559,25 @@ class claritybase(object):
 
             outfile.write("  </graph>\n</graphml>")
 
-    def get_brain_figure(self, path = None, plot_title=''):
+    def get_brain_figure(self, resolution, path = None, plot_title=''):
         """
         Returns the plotly figure object for vizualizing a 3d brain network.
 
         g: networkX object of brain
         """
         print('generating plotly with edges...')
+
+        # Set tupleResolution to resolution input parameter
+        tupleResolution = resolution;
+
+        # EG: for Aut1367, the spacing is (0.01872, 0.01872, 0.005).
+        xResolution = tupleResolution[0]
+        yResolution = tupleResolution[1]
+        zResolution = tupleResolution[2]
+        # Now, to get the mm image size, we can multiply all x, y, z
+        # to get the proper mm size when plotting.
+
+
         if path == None:
             # If bath is not specified use the default path to the generated folder.
             path = 'output/' + self._token + '/' + self._token + '.graphml'
@@ -564,10 +586,12 @@ class claritybase(object):
 
         # grab the node positions from the graphML file
         V = nx.number_of_nodes(g)
-        attributes = nx.get_node_attributes(g,'attr')
+        attributes = nx.get_node_attributes(g, 'attr')
         node_positions_3d = pd.DataFrame(columns=['x', 'y', 'z'], index=range(V))
         for n in g.nodes_iter():
-            node_positions_3d.loc[n] = [int((re.findall('\d+', str(attributes[n])))[0]), int((re.findall('\d+', str(attributes[n])))[1]), int((re.findall('\d+', str(attributes[n])))[2])]
+            node_positions_3d.loc[n] = [int((re.findall('\d+', str(attributes[n])))[0]),
+                                        int((re.findall('\d+', str(attributes[n])))[1]),
+                                        int((re.findall('\d+', str(attributes[n])))[2])]
 
         # grab edge endpoints
         edge_x = []
@@ -575,19 +599,20 @@ class claritybase(object):
         edge_z = []
 
         for e in g.edges_iter():
-            #strippedSource = int(e[0].replace('s', ''))
-            #strippedTarget = int(e[1].replace('s', ''))
+            # strippedSource = int(e[0].replace('s', ''))
+            # strippedTarget = int(e[1].replace('s', ''))
             source_pos = node_positions_3d.loc[e[0]]
             target_pos = node_positions_3d.loc[e[1]]
-        
-            edge_x += [source_pos['x'], target_pos['x'], None]
-            edge_y += [source_pos['y'], target_pos['y'], None]
-            edge_z += [source_pos['z'], target_pos['z'], None]
+
+            edge_x += [x * xResolution for x in source_pos['x'], x * xResolution for x in target_pos['x'], None]
+            edge_y += [y * yResolution for y in source_pos['y'], y * yResolution for y in target_pos['y'], None]
+            edge_z += [z * zResolution for z in source_pos['z'], z * zResolution for z in target_pos['z'], None]
+
 
         # node style
-        node_trace = Scatter3d(x=node_positions_3d['x'],
-                               y=node_positions_3d['y'],
-                               z=node_positions_3d['z'],
+        node_trace = Scatter3d(x=[x * xResolution for x in node_positions_3d['x']],
+                               y=[x * yResolution for x in node_positions_3d['y']],
+                               z=[x * zResolution for x in node_positions_3d['z']],
                                mode='markers',
                                # name='regions',
                                marker=Marker(symbol='dot',
