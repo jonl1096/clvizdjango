@@ -21,5 +21,6 @@ urlpatterns = [
     # url(r'^', include('teampage.urls')),
     url(r'^', include('clarityviz.urls')),
     url(r'^clarityviz/', include('clarityviz.urls', namespace="clarityviz")),
-    url(r'^home/', include('teampage.urls')),
+    # url(r'^home/', include('teampage.urls')),
+    url(r'^home/', include('clarityviz.urls')),
 ]
