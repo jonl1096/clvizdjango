@@ -604,9 +604,9 @@ class claritybase(object):
             source_pos = node_positions_3d.loc[e[0]]
             target_pos = node_positions_3d.loc[e[1]]
 
-            edge_x += [x * xResolution for x in source_pos['x'], x * xResolution for x in target_pos['x'], None]
-            edge_y += [y * yResolution for y in source_pos['y'], y * yResolution for y in target_pos['y'], None]
-            edge_z += [z * zResolution for z in source_pos['z'], z * zResolution for z in target_pos['z'], None]
+            edge_x += [xResolution * source_pos['x'], xResolution * target_pos['x'], None]
+            edge_y += [yResolution * source_pos['y'], yResolution * target_pos['y'], None]
+            edge_z += [zResolution * source_pos['z'], zResolution * target_pos['z'], None]
 
 
         # node style
