@@ -433,7 +433,9 @@ def imgGet(inToken, ori1):
         # inAnnoImg = imgReorient(inAnnoImg, "RSA", "LPS")
         inAnnoImg = imgResample(inAnnoImg, spacing=inImg_download.GetSpacing(), size=inImg_download.GetSize(), useNearest=True)
         print "inverse affine"
-        imgWrite(inAnnoImg, str(location))
+
+        # Saving annotations
+        imgWrite(inAnnoImg, 'img/' + inToken + '_anno.nii')
         # ndImg = sitk.GetArrayFromImage(inAnnoImg)
         # sitk.WriteImage(inAnnoImg, location)
     print "generated output"
@@ -521,7 +523,8 @@ def density_graph(Token, tupleResolution):
     plotly.offline.plot(hm, filename = 'output/' + Token + '/' + Token + '_density_pointcloud_heatmap.html')
 
 def atlas_region(Token, tupleResolution):
-    atlas_img = 'output/' + Token + '/' + Token + 'localeq' + '.nii'
+    # atlas_img = 'output/' + Token + '/' + Token + 'localeq' + '.nii'
+    atlas_img = 'output/' + Token + '/' + Token + '_anno' + '.nii'
     atlas = nb.load(atlas_img)  # <- atlas .nii image
     atlas_data = atlas.get_data()
 
