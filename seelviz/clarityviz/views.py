@@ -435,7 +435,7 @@ def imgGet(inToken, ori1):
         print "inverse affine"
 
         # Saving annotations
-        imgWrite(inAnnoImg, 'img/' + inToken + '_anno.nii')
+        imgWrite(inAnnoImg, 'img/' + inToken + '/' + inToken + '_anno.nii')
         # ndImg = sitk.GetArrayFromImage(inAnnoImg)
         # sitk.WriteImage(inAnnoImg, location)
     print "generated output"
