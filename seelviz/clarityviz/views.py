@@ -524,7 +524,7 @@ def density_graph(Token, tupleResolution):
 
 def atlas_region(Token, tupleResolution):
     # atlas_img = 'output/' + Token + '/' + Token + 'localeq' + '.nii'
-    atlas_img = 'output/' + Token + '/' + Token + '_anno' + '.nii'
+    atlas_img = 'img/' + Token + '/' + Token + '_anno' + '.nii'
     atlas = nb.load(atlas_img)  # <- atlas .nii image
     atlas_data = atlas.get_data()
 
