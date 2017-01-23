@@ -452,7 +452,7 @@ def image_parse(inToken, ori1, num_points):
     start = time.time()
     # imgGet is where the token name changes to adding the 'reorient_atlas'
     imgName, tupleResolution = imgGet(inToken,ori1) # imgName = imgGet(inToken) run_time = time.time() - start print('imgGet time = %f' % run_time) # imgName = inToken + 'reorient_atlas' copydir = os.path.join(os.getcwd(), os.path.dirname('img/')) print('copydir: %s' % copydir) print('imgName: %s' % imgName)
-    img = claritybase(imgName, 'img/' + inToken + '/' + inToken + '.img')       # initial call for clarityviz
+    img = claritybase(imgName, 'img/' + inToken + '/')       # initial call for clarityviz
     print "loaded into claritybase"
     img.loadEqImg()
     print "loaded image"
