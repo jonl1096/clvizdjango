@@ -17,6 +17,6 @@ urlpatterns = [
     url(r'^compute/$', views.ComputeCreate.as_view(), name='compute'),
 
     url(r'^tokencompute/$', views.token_compute, name='tokencompute'),
-    url(r'^download/(?P<file_name>.*)$', views.download, name='download'),
-    url(r'^plot/(?P<file_info>.*)$', views.plot, name='plot'),
+    # url(r'^download/(?P<file_name>.*)$', views.download, name='download'),
+    # url(r'^plot/(?P<file_info>.*)$', views.plot, name='plot'),
 ]
