@@ -52,7 +52,7 @@ class OutputView(generic.DetailView):
 
 class ComputeCreate(CreateView):
     model = Compute
-    fields = ['token', 'orientation', 'num_points']
+    fields = ['token', 'bucket', 'num_points']
 
     def form_valid(self, form):
 
