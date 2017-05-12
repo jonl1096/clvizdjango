@@ -8,7 +8,7 @@ import os.path
 # Create your models here.
 class Compute(models.Model):
     token = models.CharField(max_length = 30)
-    orientation = models.CharField(max_length = 3)
+    bucket = models.CharField(max_length = 30)
     num_points = models.CharField(max_length = 20)
 
 

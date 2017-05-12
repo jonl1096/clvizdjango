@@ -57,7 +57,7 @@ class ComputeCreate(CreateView):
     def form_valid(self, form):
 
         token = form.cleaned_data['token']
-        orientation = form.cleaned_data['orientation']
+        bucket = form.cleaned_data['bucket']
         num_points = form.cleaned_data['num_points']
 
         num_results = Compute.objects.filter(token=token).count()
@@ -70,7 +70,7 @@ class ComputeCreate(CreateView):
             Compute.objects.filter(token=token).delete()
             self.object = form.save()
 
-        token_compute(token, orientation, num_points)
+        token_compute(token, bucket, num_points)
         print('meme token')
         print(token)
 
@@ -115,6 +115,9 @@ from numpy import genfromtxt
 
 import time
 
+from subprocess import Popen, PIPE
+import sys
+
 from . import test
 
 def index(request):
@@ -147,132 +150,29 @@ def log(request):
 def test_function():
     print('TEST FUNCTION')
 
+def execute_cmd(cmd):
+    """
+    Given a bash command, it is executed and the response piped back to the
+    calling script
+    """
+    p = Popen(cmd, stdout=PIPE, stderr=PIPE, shell=True)
+    out, err = p.communicate()
+    code = p.returncode
+    if code:
+        sys.exit("Error  " + str(code) + ": " + err)
+    return out, err
+
 
 # def token_compute(request):
 #     print('INSIDE TOKEN_COMPUTE')
 #     token = request.POST['token']
-def token_compute(token, orientation, num_points=10000):
+def token_compute(token, bucket, num_points=10000):
     print('INSIDE TOKEN_COMPUTE')
-    print('num_points: %d' % int(num_points))
-    ogToken = token
-    new_compute = None
 
-    if token != 'Aut1367reorient_atlas':
-        token = token
-        ori1 = orientation
-        # num_results = Compute.objects.filter(token=token).filter(orientation=ori1).count()
-        # if num_results == 0:
-        #     new_compute = Compute(token=token, orientation=ori1)
-        #     new_compute.save()
-        # else:
-        #     query_set = Compute.objects.filter(token=token).filter(orientation=ori1)
-        #     for compute in query_set:
-        #         new_compute = compute
+    cmd_template = 'python create_job.py --bucket {1} --credentials accessKeys.csv --token {2}'
+    cmd = cmd_template.format(bucket, token)
+    out, err = execute_cmd(cmd)
 
-
-    # test.testFunction(token)
-
-    if token != 'Aut1367reorient_atlas':
-        ip_start = time.time()
-        token, tupleResolution = image_parse(token, ori1, int(num_points))
-        ip_run_time = time.time() - ip_start
-        print('image_parse total time = %f' % ip_run_time)
-
-        start = time.time()
-        density_graph(token, tupleResolution=tupleResolution)
-        run_time = time.time() - start
-        print('density_graph total time = %f' % run_time)
-        
-        start = time.time()
-        atlas_region(token, tupleResolution=tupleResolution)
-        run_time = time.time() - start
-        print('atlas region total time = %f' % run_time)
-
-    fzip = shutil.make_archive('output/' + token + '/' + token, 'zip', root_dir='output/'+token)
-    # fzip = shutil.make_archive('output/' + token + '/' + token, 'zip', 'output/' + token)
-    fzip_abs = os.path.abspath(fzip)
-
-    print('just finished making zip')
-
-    plotly_files = []
-    all_files = []
-
-    #
-    # for filename in glob.glob('output/' + token + '/*'):
-    #     absPath = os.path.abspath(filename)
-    #     if os.path.isdir(absPath):
-    #         print('ISDIR: %s' % absPath)
-    #         link = '<a href="/clarityviz/download/' + absPath + '">' + os.path.basename(filename) + "</a> <br />"
-    #         html += link
-    #     else:
-    #         if filename.endswith('html'):
-    #             plotly_files.append(filename)
-    #         link = '<a href="/clarityviz/download/' + absPath + '">' + os.path.basename(filename) + "</a> <br />"
-    #         html += link
-    # html += '<a href="/clarityviz/download/' + fzip_abs + '">' + token + '.zip' + "</a> <br /><br />"
-
-
-    #
-    # for plot in plotly_files:
-    #     absPath = os.path.abspath(plot)
-    #     if absPath.endswith('_brain_pointcloud.html'):
-    #         link = '<a href="/clarityviz/plot/' + absPath + '" class="page-scroll btn btn-default btn-xl sr-button">Brain Pointcloud</a> <br /><br />'
-    #     elif absPath.endswith('_edge_count_pointcloud.html'):
-    #         link = '<a href="/clarityviz/plot/' + absPath + '" class="page-scroll btn btn-default btn-xl sr-button">Edge Count Pointcloud</a> <br /><br />'
-    #     elif absPath.endswith('_density_pointcloud.html'):
-    #         link = '<a href="/clarityviz/plot/' + absPath + '" class="page-scroll btn btn-default btn-xl sr-button">Density Pointcloud</a> <br /><br />'
-    #     elif absPath.endswith('_density_pointcloud_heatmap.html'):
-    #         link = '<a href="/clarityviz/plot/' + absPath + '" class="page-scroll btn btn-default btn-xl sr-button">Density Pointcloud Heatmap</a> <br /><br />'
-    #     elif absPath.endswith('_region_pointcloud.html'):
-    #         link = '<a href="/clarityviz/plot/' + absPath + '" class="page-scroll btn btn-default btn-xl sr-button">Atlas Region Pointcloud</a> <br /><br />'
-    #     html += link
-
-    print('about to find the filenames')
-
-    for filepath in glob.glob('output/' + token + '/*'):
-        absPath = os.path.abspath(filepath)
-        if not os.path.isdir(absPath):
-            filename = filepath.split('/')[2]
-            all_files.append(filename)
-            if filepath.endswith('html'):
-                plotly_files.append(filename)
-
-    print('plotly_files:')
-    print(plotly_files)
-
-    context = {'token': token, 'all_files': all_files, 'plotly_files': plotly_files}
-
-    return context
-    # return render(request, 'clarityviz/files.html', context)
-    # return render(request, 'clarityviz/output.html', context)
-
-def download(request, file_name):
-    # file_path = '/root/seelviz/django/seelviz/output/Aut1367reorient_atlas/' + file_name
-    prev = ""
-    curr = ""
-    if not file_name.endswith('html'):
-        for i in range(0, len(file_name)):
-            if file_name[i].isdigit() and not file_name[i + 1].isdigit():
-                token = file_name[0:i + 1]
-    else:
-        token = file_name.split('_')[0]
-    file_path = 'output/' + token + '/' + file_name
-    # file_path = 'output/Aut1367reorient_atlas/' + file_name
-    print('file_path: %s' % file_path)
-    with open(file_path, 'rb') as fh:
-        response = HttpResponse(fh.read(), content_type="application/x-download")
-        response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
-        return response
-
-# def download(request, path):
-#     file_path = path
-#     if os.path.exists(file_path):
-#         with open(file_path, 'rb') as fh:
-#             response = HttpResponse(fh.read(), content_type="application/x-download")
-#             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
-#             return response
-#     else:
-#         raise Http404
 
 
 
