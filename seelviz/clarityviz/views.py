@@ -102,23 +102,12 @@ import tempfile
 import glob
 import random
 
-from clarityviz import claritybase
-from clarityviz import densitygraph
-from clarityviz import atlasregiongraph
-import networkx as nx
-import plotly
-
-from ndreg import *
-import ndio.remote.neurodata as neurodata
-import nibabel as nb
 from numpy import genfromtxt
 
 import time
 
 from subprocess import Popen, PIPE
 import sys
-
-from . import test
 
 def index(request):
     # return HttpResponse("<h2>Hello World</h2>")
