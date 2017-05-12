@@ -102,8 +102,6 @@ import tempfile
 import glob
 import random
 
-from numpy import genfromtxt
-
 import time
 
 from subprocess import Popen, PIPE
