@@ -1,0 +1,24 @@
+{
+    "jobName": "<JOBNAME>",
+    "jobQueue": "clviz-queue",
+    "dependsOn": [],
+    "jobDefinition": "clviz-pipeline",
+    "parameters": {},
+    "containerOverrides": {
+        "command": [
+            "<BUCKET>",
+            "<TOKEN>",
+            "<RESOLUTION>"
+        ],
+        "environment": [
+            {
+                "name": "AWS_ACCESS_KEY_ID",
+                "value": "<KEYID>"
+            },
+            {
+                "name": "AWS_SECRET_ACCESS_KEY",
+                "value": "<SECRET>"
+            }
+        ]
+    }
+}

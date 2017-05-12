@@ -1,0 +1,14 @@
+{
+    "jobDefinitionName": "clviz-pipeline",
+    "type": "container",
+    "containerProperties": {
+        "image": "jliu118/clarityrun",
+        "vcpus": 2,
+        "memory": 30000,
+        "readonlyRootFilesystem": false,
+        "privileged": false
+    },
+    "retryStrategy": {
+        "attempts": 1
+    }
+}
