@@ -158,7 +158,7 @@ def execute_cmd(cmd):
 def token_compute(token, bucket, num_points=10000):
     print('INSIDE TOKEN_COMPUTE')
 
-    cmd_template = 'python create_job.py --bucket {1} --credentials accessKeys.csv --token {2}'
+    cmd_template = 'python create_job.py --bucket {0} --credentials accessKeys.csv --token {1}'
     cmd = cmd_template.format(bucket, token)
     out, err = execute_cmd(cmd)
 
