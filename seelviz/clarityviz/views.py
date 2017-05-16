@@ -84,7 +84,8 @@ class OutputView(generic.DetailView):
             name = file['Key'].rsplit('/', 1)[0]
 
             # Download each file that contains a certain string to local disk
-            if '.html' in name and token in name and str(num_points) in name:
+            ending = str(num_points) + '.html'
+            if ending in name and token in name:
                 found = True
                 print('Downloading: %s' % name)
                 # (bucket, name on s3, name to download as)
