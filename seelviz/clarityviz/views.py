@@ -220,7 +220,7 @@ def write_access_keys(access_key_id, secret_access_key):
     cred_dir = '../../.aws'
     if not os.path.exists(cred_dir):
         os.makedirs(cred_dir)
-    f = open(cred_dir + '/.aws/credentials','w')
+    f = open(cred_dir + '/credentials','w')
     f.write('[default]\n')
     line = 'aws_access_key_id = ' + access_key_id + '\n'
     f.write(line)
@@ -228,7 +228,7 @@ def write_access_keys(access_key_id, secret_access_key):
     f.write(line)
     f.close()
 
-    f = open(cred_dir + '/.aws/config', 'w')
+    f = open(cred_dir + '/config', 'w')
     f.write('[default]\n')
     f.write('region=us-east-1')
     f.close()
