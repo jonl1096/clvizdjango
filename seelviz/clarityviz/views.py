@@ -99,7 +99,7 @@ class ComputeCreate(CreateView):
             Compute.objects.filter(token=token).delete()
             self.object = form.save()
 
-        token_compute(token, bucket, num_points, access_key_id, secret_access_key)
+        token_compute(token, bucket, access_key_id, secret_access_key, num_points=num_points)
         print('meme token')
         print(token)
 
