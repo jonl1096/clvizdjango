@@ -37,17 +37,16 @@ class OutputView(generic.DetailView):
 
         found = self.s3_download(token, num_points)
 
-        if found:
-            plotly_files = []
-            all_files = []
-            for filepath in glob.glob('output/' + token + '_' + str(num_points) + '/*'):
-                absPath = os.path.abspath(filepath)
-                if not os.path.isdir(absPath):
-                    filename = filepath.split('/')[2]
-                    all_files.append(filename)
-                    if filepath.endswith('html'):
-                        plotly_files.append(filename)
-            # context = {'token': token, 'all_files': all_files, 'plotly_files': plotly_files}
+        plotly_files = []
+        all_files = []
+        for filepath in glob.glob('output/' + token + '_' + str(num_points) + '/*'):
+            absPath = os.path.abspath(filepath)
+            if not os.path.isdir(absPath):
+                filename = filepath.split('/')[2]
+                all_files.append(filename)
+                if filepath.endswith('html'):
+                    plotly_files.append(filename)
+        # context = {'token': token, 'all_files': all_files, 'plotly_files': plotly_files}
 
         context = locals()
         context['token'] = token
