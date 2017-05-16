@@ -73,6 +73,9 @@ class OutputView(generic.DetailView):
         if not os.path.exists('output'):
             os.makedirs('output')
 
+        if not os.path.exists('output/' + token + '_' + str(num_points)):
+            os.makedirs('output/' + token + '_' + str(num_points))
+
         found = False
         # Loop through each file
         for file in response['Contents']:
@@ -84,7 +87,7 @@ class OutputView(generic.DetailView):
                 found = True
                 print('Downloading: %s' % name)
                 # (bucket, name on s3, name to download as)
-                s3_client.download_file(bucket, name, 'output/' + name)
+                s3_client.download_file(bucket, name, 'output/' + token + '_' + str(num_points) + '/' + name)
 
         if not found:
             return False
