@@ -337,11 +337,11 @@ def download(request, file_name):
         num_points = num_points.split('_')
         num_points = num_points[len(num_points) - 1]
 
-    if not file_name.endswith('html') or not file_name.endswith('zip'):
-        for i in range(0, len(file_name)):
-            if file_name[i].isdigit() and not file_name[i + 1].isdigit():
-                token = file_name[0:i + 1]
-    elif file_name.endswith('html'):
+    # if not file_name.endswith('html') or not file_name.endswith('zip'):
+    #     for i in range(0, len(file_name)):
+    #         if file_name[i].isdigit() and not file_name[i + 1].isdigit():
+    #             token = file_name[0:i + 1]
+    if file_name.endswith('html'):
         token = file_name.split('_')[0]
         num_points = file_name.split('.')[0]
         num_points = num_points.split('_')
