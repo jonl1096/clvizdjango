@@ -330,6 +330,7 @@ def download(request, file_name):
     # file_path = '/root/seelviz/django/seelviz/output/Aut1367reorient_atlas/' + file_name
     prev = ""
     curr = ""
+    print('file_name: %s' % file_name)
     if not file_name.endswith('html') or not file_name.endswith('zip'):
         for i in range(0, len(file_name)):
             if file_name[i].isdigit() and not file_name[i + 1].isdigit():
@@ -342,7 +343,8 @@ def download(request, file_name):
     elif file_name.endswith('zip'):
         token = file_name.split('_')[0]
         num_points = file_name.split('.')[0]
-        num_points = num_points.split('_')[1]
+        num_points = num_points.split('_')
+        num_points = num_points[len(num_points) - 1]
 
     if token == 's3617':
         token = 's3617_to_ara3'
