@@ -46,6 +46,8 @@ class OutputView(generic.DetailView):
                 all_files.append(filename)
                 if filepath.endswith('html'):
                     plotly_files.append(filename)
+                if filepath.endswith('zip'):
+                    plotly_files.append(filename)
         # context = {'token': token, 'all_files': all_files, 'plotly_files': plotly_files}
 
         context = locals()
@@ -89,6 +91,13 @@ class OutputView(generic.DetailView):
                 print('Downloading: %s' % name)
                 # (bucket, name on s3, name to download as)
                 s3_client.download_file(bucket, name, 'output/' + token + '_' + str(num_points) + '/' + name)
+
+        command = 'zip -r ' + token + '_' + str(num_points) + '.zip output/' + token + '_' + str(num_points)
+        execute_cmd(command)
+
+        cmd_template = 'mv {0} {1}'
+        cmd = cmd_template.format(token + '_' + str(num_points) + '.zip', 'output/' + token + '_' + str(num_points))
+        out, err = execute_cmd(cmd)
 
         if not found:
             return False
@@ -158,8 +167,8 @@ import sys
 def index(request):
     # return HttpResponse("<h2>Hello World</h2>")
 
-    # get token from user form, then pass that token into the url 
-    # while running the pipeline, then open the link to the output 
+    # get token from user form, then pass that token into the url
+    # while running the pipeline, then open the link to the output
     # with the token e.g. /clarityviz/fear199
 
     # template = loader.get_template('clarityviz/index.html')
