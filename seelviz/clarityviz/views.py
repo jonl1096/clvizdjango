@@ -4,6 +4,9 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
+import boto3
+import csv
+
 class LogView(generic.ListView):
   template_name = 'clarityviz/log.html'
   context_object_name = 'all_computes'
@@ -29,10 +32,11 @@ class OutputView(generic.DetailView):
         # else:
         #     token = new_compute.token
         token = new_compute.token
+        num_points = new_compute.num_points
 
         plotly_files = []
         all_files = []
-        for filepath in glob.glob('output/' + token + '/*'):
+        for filepath in glob.glob('output/' + token + '_' + str(num_points) + '/*'):
             absPath = os.path.abspath(filepath)
             if not os.path.isdir(absPath):
                 filename = filepath.split('/')[2]
@@ -49,6 +53,29 @@ class OutputView(generic.DetailView):
         return render(request, self.template_name, context)
         # return render_to_response(self.template_name, context, context_instance=RequestContext(request))
 
+    def s3_download(self, token, num_points):
+        # need to obtain credentials by using awscli to run 'aws configure' or creating ~/.aws/credentials file
+        s3_client = boto3.client('s3')
+        bucket = 'clviz-bucket'
+        prefix = ''
+
+        # List all objects within a S3 bucket path
+        response = s3_client.list_objects(
+            Bucket=bucket,
+            Prefix=prefix
+        )
+
+        # Loop through each file
+        for file in response['Contents']:
+            # Get the file name
+            name = file['Key'].rsplit('/', 1)[0]
+
+            # Download each file that contains a certain string to local disk
+            if '.html' in name and token in name and str(num_points) in name:
+                print('Downloading: %s' % name)
+                # (bucket, name on s3, name to download as)
+                s3_client.download_file(bucket, name, name)
+
 
 class ComputeCreate(CreateView):
     model = Compute
@@ -59,6 +86,8 @@ class ComputeCreate(CreateView):
         token = form.cleaned_data['token']
         bucket = form.cleaned_data['bucket']
         num_points = form.cleaned_data['num_points']
+        access_key_id = form.cleaned_data['access_key_id']
+        secret_access_key = form.cleaned_data['secret_access_key']
 
         num_results = Compute.objects.filter(token=token).count()
 
@@ -70,7 +99,7 @@ class ComputeCreate(CreateView):
             Compute.objects.filter(token=token).delete()
             self.object = form.save()
 
-        token_compute(token, bucket, num_points)
+        token_compute(token, bucket, num_points, access_key_id, secret_access_key)
         print('meme token')
         print(token)
 
@@ -153,13 +182,21 @@ def execute_cmd(cmd):
 # def token_compute(request):
 #     print('INSIDE TOKEN_COMPUTE')
 #     token = request.POST['token']
-def token_compute(token, bucket, num_points=10000):
+def token_compute(token, bucket, access_key_id, secret_access_key, num_points=10000):
     print('INSIDE TOKEN_COMPUTE')
 
-    cmd_template = 'python create_job.py --bucket {0} --credentials accessKeys.csv --token {1}'
-    cmd = cmd_template.format(bucket, token)
+    write_access_keys(access_key_id, secret_access_key)
+
+    cmd_template = 'python create_job.py --bucket {0} --credentials accessKeys.csv --token {1} --num-points {2}'
+    cmd = cmd_template.format(bucket, token, num_points)
     out, err = execute_cmd(cmd)
 
+def write_access_keys(access_key_id, secret_access_key):
+    with open('accessKeys.csv', 'w') as csvfile:
+        spamwriter = csv.writer(csvfile, delimiter=',',
+                                quotechar='|', quoting=csv.QUOTE_MINIMAL);
+        spamwriter.writerow(['Access key ID', 'Secret access key']);
+        spamwriter.writerow([access_key_id, secret_access_key]);
 
 
 

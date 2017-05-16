@@ -10,6 +10,8 @@ class Compute(models.Model):
     token = models.CharField(max_length = 30)
     bucket = models.CharField(max_length = 30)
     num_points = models.CharField(max_length = 20)
+    access_key_id = models.CharField(max_length = 50)
+    secret_access_key = models.CharField(max_length = 50)
 
 
     # base_csv_path = models.TextField()
