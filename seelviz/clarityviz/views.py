@@ -317,3 +317,25 @@ def plot(request, file_info):
 def output(request, token):
     return render(request, 'clarityviz/output.html')
 
+def download(request, file_name):
+    # file_path = '/root/seelviz/django/seelviz/output/Aut1367reorient_atlas/' + file_name
+    prev = ""
+    curr = ""
+    if not file_name.endswith('html'):
+        for i in range(0, len(file_name)):
+            if file_name[i].isdigit() and not file_name[i + 1].isdigit():
+                token = file_name[0:i + 1]
+    else:
+        token = file_name.split('_')[0]
+        num_points = file_name.split('.')[0]
+        num_points = num_points.split('_')[len(num_points) - 1]
+    if token == 's3617':
+        token = 's3617_to_ara3'
+    file_path = 'output/' + token + '_' + num_points + '/' + file_name
+    # file_path = 'output/Aut1367reorient_atlas/' + file_name
+    print('file_path: %s' % file_path)
+    with open(file_path, 'rb') as fh:
+        response = HttpResponse(fh.read(), content_type="application/x-download")
+        response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+        return response
+
