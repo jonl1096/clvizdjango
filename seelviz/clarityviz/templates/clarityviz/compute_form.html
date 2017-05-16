@@ -33,7 +33,7 @@
                 </div>
                 <div class="col-xs-6 col-md-4">
                     <h3>Example</h3>
-                    <p>Token: s3617_to_ara3 <br> Bucket: clviz-bucket <br> Num points: 10000</p>
+                    <p>Token: s3617_to_ara3 <br> Bucket: clviz-bucket <br> Num points: 3000</p>
                 </div>
             </div>
             <hr>
@@ -44,9 +44,11 @@
 
 <body>
 <section id = "other"> <div class = "container"><div class="col-lg-8 col-lg-offset-2 text-center">
-<p>Token is the token of the brain to retrieve from <a href="http://docs.neurodata.io/ndstore/">ndstore</a>.</p>
-                    <p>Bucket is the aws S3 bucket to save the outputs to.</a></p>
-                    <p>Num Points is the number of points to be represented in the plots.  The lesser the number of points, the faster each graph loads.</p>
+    <p><b>Token</b> is the token of the brain to retrieve from <a href="http://docs.neurodata.io/ndstore/">ndstore</a>.</p>
+    <p><b>Bucket</b> is the aws S3 bucket to save the outputs to.</a></p>
+    <p><b>Num Points</b> is the number of points to be represented in the plots.  The lesser the number of points, the faster each graph loads.</p>
+    <p><b>Access key id</b> is your aws access key id.</p>
+    <p><b>Secret access key</b> is your aws secret access key.</p>
 </div></div></section>
 </body>
 <section class="bg-primary" id="about">
@@ -57,10 +59,10 @@
                 <hr class="light">
                 <p class="text-faded">
                 <ul>
-                    <li>Input your token and s3 bucket in the corresponding text boxes. The orientation for the AUT brains is "RPS". </li>
-                    <li>Press enter and the web service will take approximately half an hour to process. Please make sure not to close the website while data is being processed.</li>
-                    <li>When finished an html page will pop up with two different kinds of clickable interfaces. The buttons will link you to another html page with a plot or graph while the clickable links will download the plot or graph.</li>
-                    <li>If you wish to process another image, simply refresh the page and follow the steps above once more!
+                    <li>Input your token, s3 bucket, and number of points in the corresponding text boxes.</li>
+                    <li>Press enter and the web service will take approximately 20-30 minutes to process.  The processing is all done through aws batch, and will upload the results to the specified s3 bucket when done, and the results will be viewable then.</li>
+                    <li>In the details page for each submission, you will find links that you can click on to download the corresponding file.</li>
+                    <li>If you wish to process another token, just go to the compute page again and fill in the form again.
                 </ul> </p>
             </div>
         </div>
