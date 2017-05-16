@@ -59,6 +59,7 @@ class OutputView(generic.DetailView):
 
     def s3_download(self, token, num_points):
         # need to obtain credentials by using awscli to run 'aws configure' or creating ~/.aws/credentials file
+        print('about to download from s3')
         s3_client = boto3.client('s3')
         bucket = 'clviz-bucket'
         prefix = ''
