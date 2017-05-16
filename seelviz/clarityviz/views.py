@@ -109,13 +109,14 @@ class ComputeCreate(CreateView):
 
         num_results = Compute.objects.filter(token=token).count()
 
-        if num_results == 0:
-            # if the token is not already in the db, just add it.
-            self.object = form.save()
-        else:
-            # if the token is already in the db, delete the old one and save the new one.
-            Compute.objects.filter(token=token).delete()
-            self.object = form.save()
+        self.object = form.save()
+        # if num_results == 0:
+        #     # if the token is not already in the db, just add it.
+        #     self.object = form.save()
+        # else:
+        #     # if the token is already in the db, delete the old one and save the new one.
+        #     Compute.objects.filter(token=token).delete()
+        #     self.object = form.save()
 
         token_compute(token, bucket, access_key_id, secret_access_key, num_points=num_points)
         print('meme token')
