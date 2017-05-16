@@ -4,6 +4,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
+import os
 import boto3
 import csv
 
@@ -34,16 +35,19 @@ class OutputView(generic.DetailView):
         token = new_compute.token
         num_points = new_compute.num_points
 
-        plotly_files = []
-        all_files = []
-        for filepath in glob.glob('output/' + token + '_' + str(num_points) + '/*'):
-            absPath = os.path.abspath(filepath)
-            if not os.path.isdir(absPath):
-                filename = filepath.split('/')[2]
-                all_files.append(filename)
-                if filepath.endswith('html'):
-                    plotly_files.append(filename)
-        # context = {'token': token, 'all_files': all_files, 'plotly_files': plotly_files}
+        found = self.s3_download(token, num_points)
+
+        if found:
+            plotly_files = []
+            all_files = []
+            for filepath in glob.glob('output/' + token + '_' + str(num_points) + '/*'):
+                absPath = os.path.abspath(filepath)
+                if not os.path.isdir(absPath):
+                    filename = filepath.split('/')[2]
+                    all_files.append(filename)
+                    if filepath.endswith('html'):
+                        plotly_files.append(filename)
+            # context = {'token': token, 'all_files': all_files, 'plotly_files': plotly_files}
 
         context = locals()
         context['token'] = token
@@ -65,6 +69,11 @@ class OutputView(generic.DetailView):
             Prefix=prefix
         )
 
+        # Check if 'output' dir exists, if not, make one
+        if not os.path.exists('output'):
+            os.makedirs('output')
+
+        found = False
         # Loop through each file
         for file in response['Contents']:
             # Get the file name
@@ -72,9 +81,14 @@ class OutputView(generic.DetailView):
 
             # Download each file that contains a certain string to local disk
             if '.html' in name and token in name and str(num_points) in name:
+                found = True
                 print('Downloading: %s' % name)
                 # (bucket, name on s3, name to download as)
-                s3_client.download_file(bucket, name, name)
+                s3_client.download_file(bucket, name, 'output/' + name)
+
+        if not found:
+            return False
+        return True
 
 
 class ComputeCreate(CreateView):
@@ -197,6 +211,21 @@ def write_access_keys(access_key_id, secret_access_key):
                                 quotechar='|', quoting=csv.QUOTE_MINIMAL);
         spamwriter.writerow(['Access key ID', 'Secret access key']);
         spamwriter.writerow([access_key_id, secret_access_key]);
+
+    if not os.path.exists('~/.aws'):
+        os.makedirs('~/.aws')
+    f = open('~/.aws/credentials','w')
+    f.write('[default]')
+    line = 'aws_access_key_id = ' + access_key_id
+    f.write(line)
+    line = 'aws_secret_access_key = ' + secret_access_key
+    f.write(line)
+    f.close()
+
+    f = open('~/.aws/config', 'w')
+    f.write('[default]')
+    f.write('region=us-east-1')
+    f.close()
 
 
 
