@@ -159,7 +159,7 @@ def create_json(bucket, jobdir, token, num_points, credentials=None, log=False):
     # set token
     cmd[1] = re.sub('(<TOKEN>)', token, cmd[1])
     # set num points
-    cmd[2] = re.sub('(<NUMPOINTS>)', num_points, cmd[2])
+    cmd[2] = re.sub('(<NUMPOINTS>)', str(num_points), cmd[2])
 
     name = 'clviz_token-{0}-numpoints-{1}'.format(token, num_points)
     job_json = deepcopy(template)
