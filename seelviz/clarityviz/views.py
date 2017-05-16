@@ -328,7 +328,9 @@ def download(request, file_name):
     else:
         token = file_name.split('_')[0]
         num_points = file_name.split('.')[0]
-        num_points = num_points.split('_')[len(num_points) - 1]
+        num_points = num_points.split('_')
+        num_points = num_points[len(num_points) - 1]
+
     if token == 's3617':
         token = 's3617_to_ara3'
     file_path = 'output/' + token + '_' + num_points + '/' + file_name
